@@ -23,16 +23,18 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0"
+        versionName "1.0.0"
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.debug
             minifyEnabled false
+            shrinkResources false
         }
         debug {
-            applicationIdSuffix ""
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
