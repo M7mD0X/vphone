@@ -1,0 +1,39 @@
+name: Build VPhone APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # زر يدوي من GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK (debug - no signing needed)
+        run: flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VPhone-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
